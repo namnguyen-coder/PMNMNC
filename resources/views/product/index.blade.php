@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
-</head>
 <body>
-    <ul>
-        <li>Sản phẩm 1</li>
-        <li>Sản phẩm 2</li>
-        <li>Sản phẩm 3</li>
+<h1>{{ $title }}</h1>
 
-        <a href="{{ route('add') }}">Thêm sản phẩm</a>
+<table>
+    <tr>
+        
+        <th>ID</th>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+    </tr>
+    @foreach ($products as $product)
+        <tr>
+            <td>{{ $product['id'] }}</td>
+            <td>{{ $product['name'] }}</td>
+            <td>{{ number_format($product['price']) }} VND</td>
+        </tr>
+    @endforeach
+</table>
+<button type="submit" class="button" onclick="GoToAdd()">Thêm sản phẩm</button>
+<script>
+     function GoToAdd() {
+        window.location.href = "{{ route('product.add') }}";
+    }
+</script>
 
-    </ul>
+<br>
+<a href ="{{ route('home') }}">Quay lại home</a>
 </body>
 </html>

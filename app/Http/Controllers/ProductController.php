@@ -8,7 +8,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Middleware\CheckTimeAccess;
 
 
-class ProductsController implements HasMiddleware 
+class ProductController implements HasMiddleware 
 {
     public static function middleware(): array
     {

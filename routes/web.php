@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return View('home');
@@ -26,11 +27,12 @@ Route::get('/sinhvien/{name?}/{mssv?}', function ($name="Luong Xuan Hieu", $mssv
         return "Họ và Tên: Nguyễn Văn Nam - MSSV: 0052167 - Lớp: 67PM2";
     });
      
-
-
 Route::get('/banco/{n}', function ($n) {
     return View('banco.banco',['n' => $n]);
 })->name('banco');
+
+Route::get('/signin', [AuthController::class, 'signIn']);
+Route::post('/signin', [AuthController::class, 'checkSignIn'])->name('check.signin');
 
 Route::fallback(function () {
     return View('error.404');

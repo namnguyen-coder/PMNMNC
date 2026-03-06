@@ -26,36 +26,30 @@ Route::post('/save-age', function (Request $request) {
     session(['age' => $age]);
     return 'Age saved to session.<br><a href="' . route('product.index') . '">Go to Product Page</a>';
 });
-Route::prefix('product')->middleware([CheckTimeAccess::class , CheckAge::class])->group(function () {
+Route::prefix('product')
+->middleware([CheckTimeAccess::class , CheckAge::class])
+->group(function () {
 
- Route::controller(ProductController::class)->group(function () {
-    Route::get('/', 'index') ->name('product.index');
+    Route::controller(ProductController::class)->group(function () {
 
-    Route::get('/add', 'Add')->name('product.add');
+        // danh sách
+        Route::get('/', 'index')->name('product.index');
 
-    Route::get('/detail/{id?}', 'GetDetail')->name('product.detail');
+        // form thêm
+        Route::get('/create', 'create')->name('product.create');
+
+        // lưu
+        Route::post('/store', 'store')->name('product.store');
+
+        // form sửa
+        Route::get('/edit/{id}', 'edit')->name('product.edit');
+
+        // cập nhật
+        Route::post('/update/{id}', 'update')->name('product.update');
+
+        // xóa mềm
+        Route::get('/delete/{id}', 'destroy')->name('product.delete');
 
     });
-}); 
 
-Route::prefix('category')->group(function () {
-    Route::get('/', [CategoryController::class, 'index'])->name('category.index');
-    Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
-    Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
-    Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::post('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
-    Route::get('/delete/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
-});
-
-Route::get('/sinhvien/{name?}/{mssv?}', function ($name="Luong Xuan Hieu", $mssv="123456") {
-        return "Họ và Tên: Nguyễn Văn Nam - MSSV: 0052167 - Lớp: 67PM2";
-    });
-     
-Route::get('/banco/{n}', function ($n) {
-    return View('banco.banco',['n' => $n]);
-})->name('banco');
-
-
-Route::fallback(function () {
-    return view('error.404');
 });
